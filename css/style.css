@@ -30,7 +30,7 @@ body{
 .nav-bar a:hover {
     background-color: #7F8CAA; 
     color: #ffffff; 
-    transform: scale(1.05); 
+    transform: scale(1.05);
 }
 
 
@@ -61,6 +61,7 @@ body{
 
 .lof a {
     text-decoration: none;
+    font-weight: 100px;
     color: #EAEFEF; 
     margin: 0 15px;
     transition: all 0.3s ease;
@@ -69,6 +70,7 @@ body{
 .about h1 {
     text-align: center;
     font-size: 32px;
+    font-style: italic;
     color: #EAEFEF;
     margin-bottom: 20px;
 }
@@ -173,7 +175,7 @@ body{
 }
 
 .character a{
-    text-decoration: none;
+  text-decoration: none;
     color: #EAEFEF; 
     margin: 0 15px;
     transition: all 0.3s ease;
@@ -268,7 +270,7 @@ form {
 
 footer{
     padding: 40px;
-    background-color: #1B1A55;
+    background-image: url("/img/foter.jpg");
     margin: 20px auto;
     white-space: nowrap;
     width: 94.7%;
@@ -282,6 +284,7 @@ footer i{
     font-size: 30px;
     justify-content: space-around;
     gap: 100px;
+    
 }
 
 footer a{
