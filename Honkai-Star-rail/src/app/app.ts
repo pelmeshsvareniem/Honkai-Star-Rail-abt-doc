@@ -4,11 +4,9 @@ import { RouterOutlet } from '@angular/router';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet],
-  template: `
-    <router-outlet />
-  `,
-  styles: [],
+  templateUrl: './app.html',
+  styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('kke');
+  protected readonly title = signal('Honkai-Star-rail');
 }
