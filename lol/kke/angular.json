@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular-c": {
+    "kke": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -25,14 +25,8 @@
               }
             ],
             "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
-            ],
-            "server": "src/main.server.ts",
-            "outputMode": "server",
-            "ssr": {
-              "entry": "src/server.ts"
-            }
+            ]
           },
           "configurations": {
             "production": {
@@ -62,10 +56,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "angular-c:build:production"
+              "buildTarget": "kke:build:production"
             },
             "development": {
-              "buildTarget": "angular-c:build:development"
+              "buildTarget": "kke:build:development"
             }
           },
           "defaultConfiguration": "development"
