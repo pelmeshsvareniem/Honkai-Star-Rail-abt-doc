@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CharacterLoad } from '../../core/services/character-load';
 import { Character } from '../../core/models/model';
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-body',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './body.html',
   styleUrls: ['./body.css']
 })

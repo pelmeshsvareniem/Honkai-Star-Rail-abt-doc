@@ -1,14 +1,10 @@
-<div class="card mb-3" style="max-width: 540px; margin: 0 auto;">
-  <div class="row g-0">
-    <div class="col-md-4">
-      <img src="https://img.game8.co/4105938/a7a620b0c9969474e506afc27d57874b.png/show" class="img-fluid rounded-start" alt="...">
-    </div>
-    <div class="col-md-8">
-      <div class="card-body">
-        <h5 class="card-title text-center">Anaxa (Erudition)</h5>
-        <p class="card-text text-center">Anaxa is a character in the Honkai Star Rail universe. She is a member of the Astrum research team and is responsible for developing the technology used by the Trailblazer to traverse different worlds.</p>
-      </div>
-    </div>
-  </div>
+<div *ngIf="character" class="container mt-4 text-center">
+  <h2>{{ character.name }}</h2>
+  <img [src]="character.image" [alt]="character.name" class="img-fluid mb-3">
+  <p><strong>Type:</strong> {{ character.type }}</p>
+  <p>{{ character.description }}</p>
 </div>
 
+<div *ngIf="!character">
+  <p>Caracterul nu a fost găsit.</p>
+</div>
