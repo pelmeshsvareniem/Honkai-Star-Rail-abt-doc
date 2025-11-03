@@ -1,0 +1,87 @@
+[
+  {
+    "id": 1,
+    "name": "Trailblazer",
+    "type": "Destruction",
+    "description": "Trailblazer is a character in the Honkai Star Rail universe. She is a member of the Astrum security team and is responsible for protecting the Astrum and its inhabitants.",
+    "image": "https://img.game8.co/3889785/4a5f14c74e6bff1339cff521c8bf3986.png/show"
+  },
+  {
+    "id": 2,
+    "name": "Yanqing",
+    "type": "Hunt",
+    "description": "Yanqing is a character in the Honkai Star Rail universe. She is a member of the Astrum research team and is responsible for developing the technology used by the Trailblazer to traverse different worlds.",
+    "image": "https://img.game8.co/3899383/bb93a8fe45ae19ea386ee51bffea014b.png/show"
+  },
+  {
+    "id": 3,
+    "name": "Bronya",
+    "type": "Harmony",
+    "description": "Bronya is a character in the Honkai Star Rail universe. She is a member of the Astrum medical team and is responsible for treating injured inhabitants.",
+    "image": "https://img.game8.co/3899481/2920887de56599a720cf859f3d878635.png/show"
+  },
+  {
+    "id": 4,
+    "name": "Kafka",
+    "type": "Nihility",
+    "description": "Kafka is a character in the Honkai Star Rail universe. She is a member of the Astrum security team and is responsible for protecting the Astrum and its inhabitants.",
+    "image": "https://img.game8.co/3899458/07e1e69d684f3f62496d384c5bab838c.png/show"
+  },
+  {
+    "id": 5,
+    "name": "Argenti",
+    "type": "Erudition",
+    "description": "Argenti is a character in the Honkai Star Rail universe. She is a member of the Astrum research team and is responsible for developing new technology.",
+    "image": "https://img.game8.co/3899377/230f8944093a35278f34d877a8540ca3.png/show"
+  },
+  {
+    "id": 6,
+    "name": "Yukong",
+    "type": "Harmony",
+    "description": "Yukong is a character in the Honkai Star Rail universe. She is a member of the Astrum medical team and is responsible for treating injured inhabitants.",
+    "image": "https://img.game8.co/3730778/1eb5eb0197b55d92ce1c8dd320f29337.png/show"
+  },
+  {
+    "id": 7,
+    "name": "Luocha",
+    "type": "Abundance",
+    "description": "Luocha is a character in the Honkai Star Rail universe. She is a member of the Astrum research team and is responsible for developing the technology used by the Trailblazer to traverse different worlds.",
+    "image": "https://img.game8.co/3899457/47c059b71cecd62fc53cce0830ca2097.png/show"
+  },
+  {
+    "id": 8,
+    "name": "Sunday",
+    "type": "Harmony",
+    "description": "Sunday is a character in the Honkai Star Rail universe. She is a member of the Astrum medical team and is responsible for treating injured inhabitants.",
+    "image": "https://img.game8.co/4010974/4d201b7d582745d60c2eecdaf80c8f0c.png/show"
+  },
+  {
+    "id": 9,
+    "name": "Clara",
+    "type": "Destruction",
+    "description": "Clara is a character in the Honkai Star Rail universe. She is a member of the Astrum security team and is responsible for protecting the Astrum and its inhabitants.",
+    "image": "https://img.game8.co/3899470/2ead817c52ae81d7fe516587181abce5.png/show"
+  },
+  {
+    "id": 10,
+    "name": "Acheron",
+    "type": "Nihility",
+    "description": "Acheron is a character in the Honkai Star Rail universe. She is a member of the Astrum security team and is responsible for protecting the Astrum and its inhabitants.",
+    "image": "https://img.game8.co/3899367/9cedf24bc0ce960e0b3973250dd28c76.png/show"
+  },
+  {
+    "id": 11,
+    "name": "Anaxa",
+    "type": "Erudition",
+    "description": "Anaxa is a character in the Honkai Star Rail universe. She is a member of the Astrum research team and is responsible for developing new technology.",
+    "image": "https://img.game8.co/4105938/a7a620b0c9969474e506afc27d57874b.png/show"
+  },
+  {
+    "id": 12,
+    "name": "Jing Yuan",
+    "type": "Erudition",
+    "description": "Jing Yuan is a character in the Honkai Star Rail universe. She is a member of the Astrum research team and is responsible for developing new technology.",
+    "image": "https://img.game8.co/3899462/00ff6e32c572242d331ff9d65727d028.png/show"
+  }
+]
+

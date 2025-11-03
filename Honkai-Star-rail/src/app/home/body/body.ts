@@ -1,12 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { CharacterLoad } from '../../core/services/character-load';
+import { Character } from '../../core/models/model';
 @Component({
   selector: 'app-body',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './body.html',
-  styleUrl: './body.css'
+  styleUrls: ['./body.css']
 })
-export class BodyComponent {
+export class BodyComponent implements OnInit {
+  characters: Character[] = [];
 
+  constructor(private characterService: CharacterLoad) {}
+
+  ngOnInit(): void {
+    this.characterService.load().subscribe({
+      next: data => {
+        this.characters = data;
+      },
+      error: err => console.error('Eroare la încărcare JSON:', err)
+    });
+  }
 }
