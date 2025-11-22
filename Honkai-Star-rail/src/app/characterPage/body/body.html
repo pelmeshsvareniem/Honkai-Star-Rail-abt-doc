@@ -1,6 +1,8 @@
 <div *ngIf="character" class="container mt-4 text-center">
   <h2>{{ character.name }}</h2>
-  <img [src]="character.image" [alt]="character.name" class="img-fluid mb-3">
+  <img [src]="'http://localhost:3000' + character.image" 
+       [alt]="character.name" 
+       class="img-fluid mb-3">
   <p><strong>Type:</strong> {{ character.type }}</p>
   <p>{{ character.description }}</p>
 </div>

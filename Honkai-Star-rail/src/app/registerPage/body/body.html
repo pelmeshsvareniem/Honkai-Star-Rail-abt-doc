@@ -1,0 +1,45 @@
+<div class="d-flex justify-content-center align-items-center vh-100" style="background-color: #1A0F3B;">
+  <div class="card shadow-lg p-4 text-white" style="width: 100%; max-width: 400px; border-radius: 1rem; background-color: #2B1E5B;">
+    
+    <div class="text-center mb-4">
+      <h2 class="fw-bold">Register</h2>
+    </div>
+
+    <div *ngIf="error" class="alert alert-danger text-center">
+      {{ error }}
+    </div>
+    <div *ngIf="success" class="alert alert-success text-center">
+      {{ success }}
+    </div>
+
+    <form (ngSubmit)="submitRegister()">
+
+      <div class="mb-3">
+        <label for="name" class="form-label fw-semibold">Name</label>
+        <input type="text" id="name" [(ngModel)]="name" name="name" class="form-control form-control-lg text-white border-0" placeholder="Your name" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="email" class="form-label fw-semibold">Email</label>
+        <input type="email" id="email" [(ngModel)]="email" name="email" class="form-control form-control-lg text-white border-0" placeholder="email@domain.com" required>
+      </div>
+
+      <div class="mb-4">
+        <label for="password" class="form-label fw-semibold">Password</label>
+        <input type="password" id="password" [(ngModel)]="password" name="password" class="form-control form-control-lg text-white border-0" placeholder="••••••••" required>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold" style="background-color: #6C5DD3; border: none;">
+        Register
+      </button>
+    </form>
+
+    <div class="text-center mt-3">
+      <small>
+        Already have an account? 
+        <a routerLink="/login" class="text-decoration-none text-white fw-semibold">Login</a>
+      </small>
+    </div>
+
+  </div>
+</div>

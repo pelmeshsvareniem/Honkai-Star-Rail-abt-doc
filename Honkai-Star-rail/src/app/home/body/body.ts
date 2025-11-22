@@ -1,26 +1,47 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CharacterLoad } from '../../core/services/character-load';
-import { Character } from '../../core/models/model';
-import { RouterLink } from '@angular/router';
+import { RouterModule } from '@angular/router';
+import { AdminService } from '../../core/services/admin.service';
+import { Character } from '../../core/models/character.model';
+
 @Component({
   selector: 'app-body',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterModule],
   templateUrl: './body.html',
   styleUrls: ['./body.css']
 })
 export class BodyComponent implements OnInit {
-  characters: Character[] = [];
+  characters: Character[] = [];      // all characters
+  filteredCharacters: Character[] = []; // characters after filtering
+  backendUrl = 'http://localhost:3000'; // Base URL for images
 
-  constructor(private characterService: CharacterLoad) {}
+  constructor(private adminService: AdminService) {}
 
   ngOnInit(): void {
-    this.characterService.load().subscribe({
-      next: data => {
-        this.characters = data;
+    this.loadCharacters();
+  }
+
+  loadCharacters(): void {
+    this.adminService.getCharacters().subscribe({
+      next: (data: Character[]) => {
+        // Prepend backend URL to image
+        this.characters = data.map(c => ({
+          ...c,
+          image: c.image ? `${this.backendUrl}${c.image}` : ''
+        }));
+        // Initially show all
+        this.filteredCharacters = [...this.characters];
       },
-      error: err => console.error('Eroare la încărcare JSON:', err)
+      error: (err) => console.error('Error loading characters from backend:', err)
     });
+  }
+
+  filterCharacters(type: string): void {
+    if (type === 'all') {
+      this.filteredCharacters = [...this.characters];
+    } else {
+      this.filteredCharacters = this.characters.filter(c => c.type.toLowerCase() === type.toLowerCase());
+    }
   }
 }

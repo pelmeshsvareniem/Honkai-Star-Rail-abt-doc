@@ -1,0 +1,26 @@
+<div class="d-flex justify-content-center align-items-center vh-100" style="background-color: #1A0F3B;">
+  <div class="card shadow-lg p-4 text-white"
+    style="width: 100%; max-width: 400px; border-radius: 1rem; background-color: #2B1E5B;">
+    <div class="text-center mb-4">
+      <h2 class="fw-bold">Login</h2>
+    </div>
+    <form (ngSubmit)="submitLogin()">
+      <div class="mb-3">
+        <label for="email" class="form-label fw-semibold">Email/Name</label>
+        <input type="email" [(ngModel)]="email" name="email" id="email"
+          class="form-control form-control-lg  text-white border-0" placeholder="ex: email@domain.com" required>
+      </div>
+      <div class="mb-4">
+        <label for="password" class="form-label fw-semibold">Password</label>
+        <input type="password" [(ngModel)]="password" name="password" id="password"
+          class="form-control form-control-lg  text-white border-0" placeholder="••••••••" required>
+      </div>
+      <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold"
+        style="background-color: #6C5DD3; border: none;">Login</button>
+    </form>
+    <div class="text-center mt-3">
+      <small>Don't have an account? <a routerLink="/register"
+          class="text-decoration-none text-white fw-semibold">Register</a></small>
+    </div>
+  </div>
+</div>

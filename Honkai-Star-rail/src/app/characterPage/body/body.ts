@@ -1,37 +1,43 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterModule } from '@angular/router';
-import { CharacterLoad } from '../../core/services/character-load';
-import { Character } from '../../core/models/model';
+import { ActivatedRoute, Params } from '@angular/router';
+import { AdminService } from '../../core/services/admin.service';
+import { Character } from '../../core/models/character.model';
 
 @Component({
   selector: 'app-body',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule],
   templateUrl: './body.html',
   styleUrls: ['./body.css']
 })
 export class BodyComponent implements OnInit {
   character?: Character;
+  backendUrl = 'http://localhost:3000'; // base URL for images
 
   constructor(
     private route: ActivatedRoute,
-    private characterService: CharacterLoad
+    private adminService: AdminService
   ) {}
 
   ngOnInit(): void {
-    // Preluăm ID-ul din ruta curentă
-    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.route.params.subscribe((params: Params) => {
+      const id = Number(params['id']);
+      if (!id) {
+        console.error('No character ID provided in route');
+        return;
+      }
 
-    // Încărcăm lista de caractere și găsim caracterul cu ID-ul respectiv
-    this.characterService.load().subscribe({
-      next: (data) => {
-        this.character = data.find((c) => c.id === id);
-        if (!this.character) {
-          console.warn(`Caracter cu id ${id} nu a fost găsit.`);
+      // Use AdminService to fetch character
+      this.adminService.getCharacterById(id).subscribe({
+        next: (data) => {
+          this.character = data;
+        },
+        error: (err) => {
+          console.error('Error loading character from backend:', err);
+          this.character = undefined;
         }
-      },
-      error: (err) => console.error('Eroare la încărcare JSON:', err)
+      });
     });
   }
-}
+} 
