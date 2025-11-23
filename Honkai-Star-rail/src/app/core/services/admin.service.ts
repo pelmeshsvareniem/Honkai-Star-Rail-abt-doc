@@ -12,30 +12,13 @@ export class AdminService {
 
   constructor(private http: HttpClient) {}
 
-  // ---------------- USERS CRUD ----------------
 
+  // numai get pentru useri din adminka
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${this.apiUrl}/users`);
   }
 
-  getUserById(id: number): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/users/${id}`);
-  }
-
-  addUser(user: Partial<User>): Observable<any> {
-    return this.http.post(`${this.apiUrl}/users`, user);
-  }
-
-  updateUser(id: number, data: Partial<User>): Observable<any> {
-    return this.http.put(`${this.apiUrl}/users/${id}`, data);
-  }
-
-  removeUser(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/users/${id}`);
-  }
-
-  // ---------------- CHARACTERS CRUD ----------------
-
+  // tipa personaje parca tot din cerinte 
   getCharacters(): Observable<Character[]> {
     return this.http.get<Character[]>(`${this.apiUrl}/api/characters`);
   }

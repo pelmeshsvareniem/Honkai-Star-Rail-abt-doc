@@ -10,3 +10,39 @@
 <div *ngIf="!character">
   <p>Caracterul nu a fost găsit.</p>
 </div>
+
+<div class="container mt-5 mb-5 text-white">
+
+  <h3 class="mb-4 text-white">Comments</h3>
+
+  <div class="p-4 mb-4" 
+       style="background-color: #151437; border-radius: 16px; color: white;">
+    <h5 class="text-start mb-3">Add a comment</h5>
+
+    <textarea class="form-control mb-3"
+              rows="3"
+              placeholder="Write your comment..."
+              style="background-color:#0f0e27; border:none; color:white;"></textarea>
+
+    <button class="btn w-100 fw-bold"
+            style="background-color:#6C63FF; border:none;">
+      Post Comment
+    </button>
+  </div>
+
+  <div class="p-4" 
+       style="background-color: #151437; border-radius: 16px; color:white;">
+
+    <h5 class="text-start mb-3">Discussion</h5>
+
+    <p class="text-white">No comments yet. Be the first to write one!</p>
+
+    <div class="p-3 mb-3"
+         style="background-color:#0f0e27; border-radius:12px;">
+      <strong>User123</strong>
+      <p class="mb-1">This character is amazing!</p>
+      <small class="text-white">Posted on 2025-11-23</small>
+    </div>
+
+  </div>
+</div>
