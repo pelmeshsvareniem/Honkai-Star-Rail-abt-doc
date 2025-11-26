@@ -1,7 +1,34 @@
-<div class="nav-bar">
-    <a class="home" routerLink="/home"><i class='bxr  bx-home'></i> Home</a>
-    <a routerLink="/about">About</a>
-    <a routerLink="/op">Official page</a>
-    <a routerLink="/news">News</a>
-</div><br>
+<nav class="navbar navbar-expand-lg rounded-4 p-2 px-4 mx-auto my-3" style="background-color: #1B1A55; max-width: 800px;">
+  <div class="container-fluid justify-content-center">
+    <ul class="navbar-nav d-flex flex-row gap-3">
+      <li class="nav-item">
+        <a class="nav-link active text-white px-3 py-2 rounded-pill fw-bold" href="#Home" style="background-color: #535C91;">
+          <i class='bxr bx-home me-1'></i> Home
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white px-3 py-2 rounded-pill" href="#about">About</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white px-3 py-2 rounded-pill" href="#OP">Official page</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white px-3 py-2 rounded-pill" href="news">News</a>
+      </li>
 
+      <li class="nav-item" *ngIf="!isLoggedIn">
+        <a class="nav-link text-white px-3 py-2 rounded-pill" routerLink="/login">Login</a>
+      </li>
+      <li class="nav-item" *ngIf="!isLoggedIn">
+        <a class="nav-link text-white px-3 py-2 rounded-pill" routerLink="/register">Register</a>
+      </li>
+
+      <li class="nav-item" *ngIf="isLoggedIn && isAdmin">
+        <a class="nav-link text-white px-3 py-2 rounded-pill" routerLink="/admin">Admin Panel</a>
+      </li>
+      <li class="nav-item" *ngIf="isLoggedIn">
+        <a class="nav-link text-white px-3 py-2 rounded-pill" (click)="logout()">Logout</a>
+      </li>
+    </ul>
+  </div>
+</nav>

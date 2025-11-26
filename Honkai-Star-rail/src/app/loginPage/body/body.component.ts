@@ -25,17 +25,17 @@ export class BodyComponent {
     password: this.password
   };
 
-  // Admin shortcut check
+  
   if (this.email === 'admin' && this.password === 'admin') {
-    // optionally save a token for admin
+ 
     if (typeof window !== 'undefined') {
       this.auth.saveToken('admin-token'); 
     }
-    this.router.navigate(['/admin']); // redirect to admin dashboard
+    this.router.navigate(['/admin']); 
     return;
   }
 
-  // Normal login flow
+
   this.auth.login(credentials).subscribe({
     next: (res: any) => {
       if (typeof window !== 'undefined' && res.token) {

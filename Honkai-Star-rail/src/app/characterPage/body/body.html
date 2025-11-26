@@ -1,48 +1,38 @@
 <div *ngIf="character" class="container mt-4 text-center">
   <h2>{{ character.name }}</h2>
-  <img [src]="'http://localhost:3000' + character.image" 
-       [alt]="character.name" 
-       class="img-fluid mb-3">
+  <img [src]="backendUrl + character.image" 
+       [alt]="character.name" class="img-fluid mb-3">
   <p><strong>Type:</strong> {{ character.type }}</p>
   <p>{{ character.description }}</p>
 </div>
 
 <div *ngIf="!character">
-  <p>Caracterul nu a fost găsit.</p>
+  <p>Character not found.</p>
 </div>
 
 <div class="container mt-5 mb-5 text-white">
+  <h3 class="mb-4">Comments</h3>
 
-  <h3 class="mb-4 text-white">Comments</h3>
-
-  <div class="p-4 mb-4" 
-       style="background-color: #151437; border-radius: 16px; color: white;">
-    <h5 class="text-start mb-3">Add a comment</h5>
-
-    <textarea class="form-control mb-3"
-              rows="3"
-              placeholder="Write your comment..."
-              style="background-color:#0f0e27; border:none; color:white;"></textarea>
-
-    <button class="btn w-100 fw-bold"
-            style="background-color:#6C63FF; border:none;">
+  <!-- Add Comment -->
+  <div class="p-4 mb-4" style="background-color: #151437; border-radius: 16px;">
+    <input [(ngModel)]="userName" class="form-control mb-4" placeholder="Your name (optional)">
+    <textarea [(ngModel)]="newComment" class="form-control mb-3" rows="3"
+              placeholder="Write your comment..." style="background-color:#0f0e27; border:none; color:white;"></textarea>
+    <button class="btn w-100 fw-bold" style="background-color:#6C63FF; border:none;"
+            (click)="postComment()">
       Post Comment
     </button>
   </div>
 
-  <div class="p-4" 
-       style="background-color: #151437; border-radius: 16px; color:white;">
-
-    <h5 class="text-start mb-3">Discussion</h5>
-
-    <p class="text-white">No comments yet. Be the first to write one!</p>
-
-    <div class="p-3 mb-3"
-         style="background-color:#0f0e27; border-radius:12px;">
-      <strong>User123</strong>
-      <p class="mb-1">This character is amazing!</p>
-      <small class="text-white">Posted on 2025-11-23</small>
+  <!-- Existing Comments -->
+  <div class="p-4" style="background-color: #151437; border-radius: 16px;">
+    <div *ngIf="comments.length === 0">
+      <p>No comments yet. Be the first to write one!</p>
     </div>
-
+    <div *ngFor="let comment of comments" class="p-3 mb-3" style="background-color:#0f0e27; border-radius:12px;">
+      <strong>{{ comment.userName }}</strong>
+      <p>{{ comment.text }}</p>
+      <small>Posted on {{ comment.createdAt | date:'medium' }}</small>
+    </div>
   </div>
 </div>

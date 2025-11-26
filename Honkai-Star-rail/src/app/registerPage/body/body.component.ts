@@ -29,8 +29,6 @@ export class BodyComponent {
       return;
     }
 
-    console.log({ name: this.name, email: this.email, password: this.password }); // debug
-
     this.auth.register({ 
       name: this.name, 
       email: this.email, 

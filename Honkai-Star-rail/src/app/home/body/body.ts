@@ -12,9 +12,9 @@ import { Character } from '../../core/models/character.model';
   styleUrls: ['./body.css']
 })
 export class BodyComponent implements OnInit {
-  characters: Character[] = [];      // all characters
-  filteredCharacters: Character[] = []; // characters after filtering
-  backendUrl = 'http://localhost:3000'; // Base URL for images
+  characters: Character[] = [];      
+  filteredCharacters: Character[] = []; 
+  backendUrl = 'http://localhost:3000';
 
   constructor(private adminService: AdminService) {}
 
@@ -25,12 +25,10 @@ export class BodyComponent implements OnInit {
   loadCharacters(): void {
     this.adminService.getCharacters().subscribe({
       next: (data: Character[]) => {
-        // Prepend backend URL to image
         this.characters = data.map(c => ({
           ...c,
           image: c.image ? `${this.backendUrl}${c.image}` : ''
         }));
-        // Initially show all
         this.filteredCharacters = [...this.characters];
       },
       error: (err) => console.error('Error loading characters from backend:', err)
