@@ -23,9 +23,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// --------------------
-// CREATE TABLES
-// --------------------
+
 db.prepare(`CREATE TABLE IF NOT EXISTS characters (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
@@ -56,7 +54,7 @@ db.prepare(`CREATE TABLE IF NOT EXISTS comments (
   )
 `).run();
 
-// NEW TABLE FOR WARP BANNERS
+
 db.prepare(`CREATE TABLE IF NOT EXISTS warp_banners (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     version TEXT NOT NULL,
@@ -89,9 +87,7 @@ function isAdmin(req, res, next) {
   }
 }
 
-// --------------------
-// AUTH ROUTES
-// --------------------
+
 app.post("/auth/register", async (req, res) => {
   const { name, email, password } = req.body;
   
@@ -169,9 +165,7 @@ app.get("/users", (req, res) => {
   res.json(users);
 });
 
-// --------------------
-// CHARACTERS ROUTES
-// --------------------
+
 app.get("/api/characters", (req, res) => {
   const characters = db.prepare("SELECT * FROM characters").all();
   res.json(characters);
@@ -224,9 +218,7 @@ app.delete("/api/characters/:id", (req, res) => {
   res.json({ success: true });
 });
 
-// --------------------
-// COMMENTS ROUTES
-// --------------------
+
 app.get("/api/comments/:characterId", (req, res) => {
   const characterId = Number(req.params.characterId);
   const comments = db.prepare(`
@@ -256,9 +248,7 @@ app.post("/api/comments", (req, res) => {
   res.json(comment);
 });
 
-// --------------------
-// WARP BANNERS ROUTES
-// --------------------
+
 const uploadBannerImages = upload.fields(
     Array.from({ length: 10 }, (_, i) => ({ 
         name: `charImage_${i}`, 
@@ -334,7 +324,7 @@ app.get("/api/warp-banners", (req, res) => {
     }
 });
 
-// *** MODIFIED DELETE ROUTE: Removed authenticateToken and isAdmin ***
+
 app.delete("/api/warp-banners/:id", (req, res) => {
     const id = Number(req.params.id);
     try {

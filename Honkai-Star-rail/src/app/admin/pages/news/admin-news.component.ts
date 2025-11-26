@@ -74,7 +74,7 @@ export class AdminNews implements OnInit {
     formData.append('phase', this.newBanner.phase);
     formData.append('dates', this.newBanner.dates);
 
-    // Important: send bannerDetailsJson to match backend
+   
     formData.append('bannerDetailsJson', JSON.stringify(this.newBanner.banner_details));
 
     this.characterFiles.forEach((file, index) => {
@@ -111,7 +111,7 @@ export class AdminNews implements OnInit {
     this.addCharacterSlot();
   }
 
-  // Optional helper to display file names
+
   getFileName(index: number) {
     return this.characterFiles[index]?.name || 'No file selected';
   }
