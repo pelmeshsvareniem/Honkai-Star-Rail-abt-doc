@@ -1,0 +1,26 @@
+.card {
+    border-radius: 10px;
+    border: none;
+}
+
+.card-header {
+    border-top-left-radius: 10px !important;
+    border-top-right-radius: 10px !important;
+}
+
+.character-list {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.character-list::-webkit-scrollbar {
+    width: 6px;
+}
+.character-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+.character-list::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+}

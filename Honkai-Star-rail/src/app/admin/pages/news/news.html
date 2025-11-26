@@ -1,1 +1,162 @@
-<p>news works!</p>
+<div class="container mt-5 mb-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-calendar-alt me-2"></i>Warp Banner Manager</h2>
+  </div>
+
+  <div class="row">
+    <!-- Add New Schedule -->
+    <div class="col-lg-5 mb-4">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">Add New Schedule</h5>
+        </div>
+        <div class="card-body">
+          <form (ngSubmit)="submitBanner()">
+            
+            <div class="row g-2 mb-3">
+              <div class="col-md-6">
+                <label class="form-label">Version</label>
+                <input type="text" class="form-control" [(ngModel)]="newBanner.version" name="version" placeholder="v2.5">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Status</label>
+                <select class="form-select" [(ngModel)]="newBanner.status" name="status">
+                  <option value="Current">Current</option>
+                  <option value="Next">Next</option>
+                  <option value="Upcoming">Upcoming</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Phase</label>
+                <select class="form-select" [(ngModel)]="newBanner.phase" name="phase">
+                  <option value="Phase 1">Phase 1</option>
+                  <option value="Phase 2">Phase 2</option>
+                  <option value="Collab">Collab</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Date Range</label>
+                <input type="text" class="form-control" [(ngModel)]="newBanner.dates" name="dates" placeholder="10/15 - 11/04">
+              </div>
+            </div>
+
+            <hr>
+            
+            <label class="form-label fw-bold">Featured Characters</label>
+            <div class="character-list mb-3">
+              <div *ngFor="let char of newBanner.banner_details; let i = index" class="card bg-light mb-2 border-0">
+                <div class="card-body p-2">
+                  <div class="d-flex justify-content-between mb-2">
+                    <small class="text-muted">Character #{{i+1}}</small>
+                    <button type="button" class="btn btn-sm btn-outline-danger py-0" 
+                            (click)="removeCharacterSlot(i)" *ngIf="newBanner.banner_details.length > 1">
+                      &times;
+                    </button>
+                  </div>
+                  
+                  <input type="text" class="form-control form-control-sm mb-2" 
+                         [(ngModel)]="char.name" [name]="'charName'+i" placeholder="Character Name">
+                  
+                  <input type="text" class="form-control form-control-sm mb-2" 
+                         [(ngModel)]="char.specs" [name]="'charSpecs'+i" placeholder="Specs (e.g. Fire, Hunt)">
+                  
+                  <label class="form-label form-label-sm mt-1 mb-0">Character Image</label>
+                  <div class="d-flex align-items-center gap-2 mb-2">
+                    <button type="button" class="btn btn-outline-primary btn-sm"
+                            (click)="triggerFileInput(i)">
+                        <i class="fas fa-upload me-1"></i>
+                        {{ characterFiles[i]?.name ? 'Change Image' : 'Upload Image' }}
+                    </button>
+                    
+                    <small class="text-success" *ngIf="characterFiles[i]">
+                        {{ characterFiles[i]?.name }}
+                    </small>
+                    </div>
+
+                    <input type="file" #fileInput style="display:none" (change)="onFileSelected($event, i)">
+
+                </div>
+              </div>
+            </div>
+
+            <button type="button" class="btn btn-sm btn-outline-secondary w-100 mb-3" (click)="addCharacterSlot()">
+              <i class="fas fa-plus me-1"></i> Add Another Character
+            </button>
+
+            <button type="submit" class="btn btn-success w-100">
+              Save Schedule
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Existing Schedules -->
+   <div class="col-lg-7">
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white">
+            <h5 class="mb-0">Existing Schedules</h5>
+            </div>
+            <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                <tr>
+                    <th>Ver</th>
+                    <th>Status</th>
+                    <th>Phase</th>
+                    <th>Characters</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let banner of banners">
+                    <td><span class="badge bg-secondary">{{banner.version}}</span></td>
+                    <td>
+                    <span class="badge" 
+                            [ngClass]="{
+                            'bg-success': banner.status === 'Current',
+                            'bg-warning text-dark': banner.status === 'Next',
+                            'bg-info text-dark': banner.status === 'Upcoming'
+                            }">
+                        {{banner.status}}
+                    </span>
+                    </td>
+                    <td><small>{{banner.phase}}<br>{{banner.dates}}</small></td>
+                    <td>
+                    <div class="d-flex gap-1 flex-wrap">
+                        <div *ngFor="let detail of banner.banner_details" 
+                            class="border rounded p-1 text-center" style="width: 60px;">
+                        <img *ngIf="detail.image_path" 
+                            [src]="'http://localhost:3000' + detail.image_path" 
+                            [alt]="detail.name" 
+                            class="img-fluid rounded mb-1" 
+                            style="height: 40px; object-fit: cover; display: block;">
+                        <div style="font-size: 20px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                            {{detail.name}}
+                        </div>
+                        </div>
+                    </div>
+                    </td>
+                    <td>
+                    <button class="btn btn-sm btn-danger" (click)="deleteBanner(banner.id)">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                    </td>
+                </tr>
+                <tr *ngIf="banners.length === 0">
+                    <td colspan="5" class="text-center py-4 text-muted">
+                    No schedules found. Add one on the left.
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+        </div>
+
+
+
+
+
+  </div>
+</div>

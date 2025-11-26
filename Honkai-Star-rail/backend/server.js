@@ -26,8 +26,7 @@ const upload = multer({ storage });
 // --------------------
 // CREATE TABLES
 // --------------------
-db.prepare(`
-  CREATE TABLE IF NOT EXISTS characters (
+db.prepare(`CREATE TABLE IF NOT EXISTS characters (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     type TEXT NOT NULL,
@@ -36,8 +35,7 @@ db.prepare(`
   )
 `).run();
 
-db.prepare(`
-  CREATE TABLE IF NOT EXISTS users (
+db.prepare(`CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
@@ -46,8 +44,7 @@ db.prepare(`
   )
 `).run();
 
-db.prepare(`
-  CREATE TABLE IF NOT EXISTS comments (
+db.prepare(`CREATE TABLE IF NOT EXISTS comments (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     character_id INTEGER NOT NULL,
     user_id INTEGER,
@@ -59,6 +56,17 @@ db.prepare(`
   )
 `).run();
 
+// NEW TABLE FOR WARP BANNERS
+db.prepare(`CREATE TABLE IF NOT EXISTS warp_banners (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    version TEXT NOT NULL,
+    status TEXT NOT NULL,
+    phase TEXT NOT NULL,
+    dates TEXT NOT NULL,
+    banner_details TEXT NOT NULL,
+    is_active INTEGER DEFAULT 1
+  )
+`).run();
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
@@ -72,6 +80,18 @@ function authenticateToken(req, res, next) {
   });
 }
 
+// NEW ADMIN CHECK MIDDLEWARE
+function isAdmin(req, res, next) {
+  if (req.user && req.user.role === 'admin') {
+    next();
+  } else {
+    res.status(403).json({ error: "Access denied. Admin privileges required." });
+  }
+}
+
+// --------------------
+// AUTH ROUTES
+// --------------------
 app.post("/auth/register", async (req, res) => {
   const { name, email, password } = req.body;
   
@@ -80,7 +100,6 @@ app.post("/auth/register", async (req, res) => {
   }
 
   try {
-   
     const existingUser = db.prepare("SELECT * FROM users WHERE email = ?").get(email);
     if (existingUser) {
       return res.status(400).json({ error: "Email already registered" });
@@ -88,7 +107,6 @@ app.post("/auth/register", async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-  
     const result = db.prepare(`
       INSERT INTO users (name, email, password, role)
       VALUES (?, ?, ?, 'user')
@@ -105,7 +123,6 @@ app.post("/auth/register", async (req, res) => {
   }
 });
 
-
 app.post("/auth/login", async (req, res) => {
   const { email, password } = req.body;
 
@@ -114,28 +131,18 @@ app.post("/auth/login", async (req, res) => {
   }
 
   try {
-   
     const user = db.prepare("SELECT * FROM users WHERE email = ?").get(email);
-    
-    if (!user) {
-      return res.status(401).json({ error: "Invalid credentials" });
-    }
+    if (!user) return res.status(401).json({ error: "Invalid credentials" });
 
-    
     const validPassword = await bcrypt.compare(password, user.password);
-    
-    if (!validPassword) {
-      return res.status(401).json({ error: "Invalid credentials" });
-    }
+    if (!validPassword) return res.status(401).json({ error: "Invalid credentials" });
 
- 
     const token = jwt.sign(
       { id: user.id, email: user.email, role: user.role },
       SECRET_KEY,
       { expiresIn: "24h" }
     );
 
-   
     res.json({
       token,
       user: {
@@ -151,24 +158,20 @@ app.post("/auth/login", async (req, res) => {
   }
 });
 
-
 app.get("/auth/me", authenticateToken, (req, res) => {
   const user = db.prepare("SELECT id, name, email, role FROM users WHERE id = ?").get(req.user.id);
-  
-  if (!user) {
-    return res.status(404).json({ error: "User not found" });
-  }
-
+  if (!user) return res.status(404).json({ error: "User not found" });
   res.json(user);
 });
-
 
 app.get("/users", (req, res) => {
   const users = db.prepare("SELECT id, name, email, role FROM users").all();
   res.json(users);
 });
 
-
+// --------------------
+// CHARACTERS ROUTES
+// --------------------
 app.get("/api/characters", (req, res) => {
   const characters = db.prepare("SELECT * FROM characters").all();
   res.json(characters);
@@ -221,7 +224,9 @@ app.delete("/api/characters/:id", (req, res) => {
   res.json({ success: true });
 });
 
-
+// --------------------
+// COMMENTS ROUTES
+// --------------------
 app.get("/api/comments/:characterId", (req, res) => {
   const characterId = Number(req.params.characterId);
   const comments = db.prepare(`
@@ -251,5 +256,97 @@ app.post("/api/comments", (req, res) => {
   res.json(comment);
 });
 
+// --------------------
+// WARP BANNERS ROUTES
+// --------------------
+const uploadBannerImages = upload.fields(
+    Array.from({ length: 10 }, (_, i) => ({ 
+        name: `charImage_${i}`, 
+        maxCount: 1 
+    }))
+);
+
+app.post("/api/warp-banners", uploadBannerImages, (req, res) => {
+    const { version, status, phase, dates, bannerDetailsJson } = req.body; 
+    
+    if (!version || !status || !phase || !dates || !bannerDetailsJson) {
+        return res.status(400).json({ error: "Missing required banner fields or details" });
+    }
+
+    try {
+        let banner_details = JSON.parse(bannerDetailsJson);
+        
+        const uploadedFiles = req.files || {};
+
+        const finalDetails = banner_details.map((detail, index) => {
+            const fieldName = `charImage_${index}`;
+            const file = uploadedFiles[fieldName] ? uploadedFiles[fieldName][0] : null;
+
+            if (file) {
+                detail.image_path = `/uploads/${file.filename}`;
+            } else {
+                detail.image_path = detail.image_path || ""; 
+            }
+            return detail;
+        });
+
+        const finalDetailsJson = JSON.stringify(finalDetails);
+
+        const result = db.prepare(`
+            INSERT INTO warp_banners (version, status, phase, dates, banner_details)
+            VALUES (?, ?, ?, ?, ?)
+        `).run(version, status, phase, dates, finalDetailsJson);
+
+        res.json({ 
+            success: true, 
+            id: result.lastInsertRowid, 
+            message: "Warp banner schedule added successfully" 
+        });
+    } catch (error) {
+        console.error("Add banner error:", error);
+        res.status(500).json({ error: "Failed to add banner schedule: " + error.message });
+    }
+});
+
+app.get("/api/warp-banners", (req, res) => {
+    try {
+        const banners = db.prepare(`
+            SELECT id, version, status, phase, dates, banner_details FROM warp_banners
+            WHERE is_active = 1
+            ORDER BY id DESC 
+        `).all();
+
+        const parsedBanners = banners.map(banner => {
+            try {
+                return {
+                    ...banner,
+                    banner_details: JSON.parse(banner.banner_details)
+                };
+            } catch (e) {
+                return banner; 
+            }
+        });
+
+        res.json(parsedBanners);
+    } catch (error) {
+        console.error("Get banners error:", error);
+        res.status(500).json({ error: "Failed to retrieve banner schedule" });
+    }
+});
+
+// *** MODIFIED DELETE ROUTE: Removed authenticateToken and isAdmin ***
+app.delete("/api/warp-banners/:id", (req, res) => {
+    const id = Number(req.params.id);
+    try {
+        const result = db.prepare("DELETE FROM warp_banners WHERE id = ?").run(id);
+        if (result.changes === 0) {
+            return res.status(404).json({ error: "Banner not found" });
+        }
+        res.json({ success: true, message: "Banner deleted successfully" });
+    } catch (error) {
+        console.error("Delete banner error:", error);
+        res.status(500).json({ error: "Failed to delete banner" });
+    }
+});
 
 app.listen(3000, () => console.log("Server running on http://localhost:3000"));
